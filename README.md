@@ -1,6 +1,6 @@
 Streamlit Demo for HeatReg.
 
-Corresponding Huggingface:
+Corresponding Huggingface: https://huggingface.co/spaces/chrgrbrmr/HeatReg
 
 Todo: 
 * Training Code
