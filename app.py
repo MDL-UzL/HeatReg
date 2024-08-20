@@ -12,9 +12,9 @@ st.set_page_config(layout="wide")
 if HEADLESS:    
     pv.start_xvfb()
 
-st.title("HeatReg")
-
-##load sample data
+st.title("HeatReg Demo")
+st.markdown("""This is a demo for the implementation of HeatReg: "3D Freehand Ultrasound Reconstruction by Heatmap-Enhanced Reference-Based Point Cloud Registration"  
+            More information can be found on [GitHub.](https://github.com/MDL-UzL/HeatReg)""")
 
 ##load all
 data = torch.load('sample_data.pth')
@@ -59,30 +59,37 @@ def build_plotter(fpt_result = None, hrn_result = None):
     if cpos is not None:
         plotter.camera_position = cpos.numpy()
     plotter.subplot(0, 0)
-    plotter.add_points(fix.view(-1,3).numpy(), color='blue', point_size=3)
-    plotter.add_points(init.view(-1,3).numpy(), color='red', point_size=3)
+    plotter.add_points(fix.view(-1,3).numpy(), color='red', point_size=5)
+    plotter.add_points(init.view(-1,3).numpy(), color='blue', point_size=5)
     plotter.add_title("Initial")
 
 
     
     plotter.subplot(0, 1)
-    plotter.add_points(fix.view(-1,3).numpy(), color='red', point_size=3)
+    plotter.add_points(fix.view(-1,3).numpy(), color='red', point_size=5)
     if fpt_result is not None:
-        plotter.add_points(fpt_result.view(-1,3).numpy(), color='blue', point_size=3)
-    plotter.add_title("FPT")
+        plotter.add_points(fpt_result.view(-1,3).numpy(), color='blue', point_size=5)
+    plotter.add_title("Free Point Transformer")
 
 
     plotter.subplot(0, 2)
-    plotter.add_points(fix.view(-1,3).numpy(), color='red', point_size=3)
+    plotter.add_points(fix.view(-1,3).numpy(), color='red', point_size=5)
     if hrn_result is not None:
-        plotter.add_points(hrn_result.view(-1,3).numpy(), color='blue', point_size=3)
+        plotter.add_points(hrn_result.view(-1,3).numpy(), color='blue', point_size=5)
     plotter.add_title("Heat Reg")
 
     plotter.view_isometric()
     plotter.background_color = 'white'
     plotter.link_views()
+
+   
     return plotter
 
+button_inference = st.button("Run Inference?")
+st.markdown(''' 
+            :red[● Fixed Sweep]  
+            :blue[● Moving Sweep] 
+            ''')
 
 fpt_result = None
 hrn_result = None
@@ -92,7 +99,7 @@ plot_spot = st.empty()
 text_spot = st.empty()
 
 plotter = build_plotter(fpt_result, hrn_result)
-button_inference = st.button("Run Inference?")
+
 
 with plot_spot:
     stpyvista(plotter)
