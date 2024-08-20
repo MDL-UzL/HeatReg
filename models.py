@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+'''
+FreePointTransformer and HeatRegNet models.
+'''
+
 class FreePointTransformer(torch.nn.Module):
     def __init__(self, base=16):
         super(FreePointTransformer, self).__init__()
